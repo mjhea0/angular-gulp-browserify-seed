@@ -1,0 +1,24 @@
+{
+  "name": "angular-gulp-browserify-starter",
+  "version": "0.0.0",
+  "authors": [
+    "Michael Herman <hermanmu@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.22",
+    "angular-animate": "~1.2.22",
+    "angular-route": "~1.2.22",
+    "jquery": "~2.1.1",
+    "animate.css": "~3.2.0",
+    "bootstrap": "~3.2.0",
+    "fontawesome": "~4.1.0"
+  }
+}
