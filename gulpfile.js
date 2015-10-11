@@ -9,6 +9,7 @@ var minifyCSS = require('gulp-minify-css');
 var clean = require('gulp-clean');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
+var runSequence = require('run-sequence');
 
 // tasks
 gulp.task('lint', function() {
@@ -27,7 +28,7 @@ gulp.task('minify-css', function() {
   var opts = {comments:true,spare:true};
   gulp.src(['./app/**/*.css', '!./app/bower_components/**'])
     .pipe(minifyCSS(opts))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./dist/'));
 });
 gulp.task('minify-js', function() {
   gulp.src(['./app/**/*.js', '!./app/bower_components/**'])
@@ -35,7 +36,7 @@ gulp.task('minify-js', function() {
       // inSourceMap:
       // outSourceMap: "app.js.map"
     }))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./dist/'));
 });
 gulp.task('copy-bower-components', function () {
   gulp.src('./app/bower_components/**')
@@ -64,7 +65,7 @@ gulp.task('browserify', function() {
     debug: true
   }))
   .pipe(concat('bundled.js'))
-  .pipe(gulp.dest('./app/js'))
+  .pipe(gulp.dest('./app/js'));
 });
 gulp.task('browserifyDist', function() {
   gulp.src(['app/js/main.js'])
@@ -73,15 +74,30 @@ gulp.task('browserifyDist', function() {
     debug: true
   }))
   .pipe(concat('bundled.js'))
-  .pipe(gulp.dest('./dist/js'))
+  .pipe(gulp.dest('./dist/js'));
 });
 
 
-// default task
-gulp.task('default',
-  ['lint', 'browserify', 'connect']
-);
-// build task
-gulp.task('build',
-  ['lint', 'minify-css', 'browserifyDist', 'copy-html-files', 'copy-bower-components', 'connectDist']
-);
+// // *** default task *** //
+// gulp.task('default',
+//   ['lint', 'browserify', 'connect']
+// );
+// // *** build task *** //
+// gulp.task('build',
+//   ['lint', 'minify-css', 'browserifyDist', 'copy-html-files', 'copy-bower-components', 'connectDist']
+// );
+
+// *** default task *** //
+gulp.task('default', function() {
+  runSequence(
+    ['clean'],
+    ['lint', 'browserify', 'connect']
+  );
+});
+// *** build task *** //
+gulp.task('build', function() {
+  runSequence(
+    ['clean'],
+    ['lint', 'minify-css', 'browserifyDist', 'copy-html-files', 'copy-bower-components', 'connectDist']
+  );
+});
